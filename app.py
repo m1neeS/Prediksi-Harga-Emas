@@ -36,8 +36,8 @@ data = data.sort_values('Tanggal')
 # -------------------------------
 @st.cache_resource
 def load_models():
-    model_uni = tf.keras.models.load_model('gru_univariate.h5')
-    model_multi = tf.keras.models.load_model('gru_multivariate.h5')
+    model_uni = tf.keras.models.load_model('best_univariate_gru.h5')
+    model_multi = tf.keras.models.load_model('best_multivariate_gru.h5')
     
     scaler_uni = MinMaxScaler()
     scaler_multi = MinMaxScaler()
@@ -69,7 +69,7 @@ if selected_date not in data['Tanggal'].values:
 # -------------------------------
 # Sliding window
 # -------------------------------
-window = 5
+window = 30
 data_filtered = data[data['Tanggal'] <= selected_date]
 if len(data_filtered) < window:
     st.warning(f"Data tidak cukup untuk window={window}.")
@@ -89,9 +89,9 @@ else:
 # -------------------------------
 # Prediksi 30 hari ke depan
 # -------------------------------
-future_days = 5
+future_days = 30
 
-if st.button("Prediksi 5 Hari ke Depan"):
+if st.button("Prediksi 30 Hari ke Depan"):
     preds = []
     last_window_scaled = X_input_scaled.copy()
 
@@ -120,7 +120,7 @@ if st.button("Prediksi 5 Hari ke Depan"):
     # Tanggal prediksi
     future_dates = [selected_date + pd.Timedelta(days=i) for i in range(1, future_days+1)]
 
-    st.subheader("Hasil Prediksi 5 Hari Ke Depan")
+    st.subheader("Hasil Prediksi 30 Hari Ke Depan")
     pred_df = pd.DataFrame({"Tanggal": future_dates, "Prediksi": preds})
     st.dataframe(pred_df)
 

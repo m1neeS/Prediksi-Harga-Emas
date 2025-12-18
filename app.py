@@ -69,7 +69,7 @@ if selected_date not in data['Tanggal'].values:
 # -------------------------------
 # Sliding window
 # -------------------------------
-window = 30
+window = 5
 data_filtered = data[data['Tanggal'] <= selected_date]
 if len(data_filtered) < window:
     st.warning(f"Data tidak cukup untuk window={window}.")
